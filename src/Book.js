@@ -9,6 +9,7 @@ class Book extends Component {
 			selectedShelf: event.target.value,
 		})
 		this.props.onUpdate(this.props.book, event.target.value)
+		this.forceUpdate()
 	}
 	render() {
 		const { title, authors, thumbnail } = this.props
@@ -28,15 +29,13 @@ class Book extends Component {
 							value={this.state.selectedShelf}
 							onChange={this.handleChange}
 						>
-							<option value="none" disabled>
+							<option value="" disabled>
 								Move to...
 							</option>
 							<option value="currentlyReading">Currently Reading</option>
 							<option value="wantToRead">Want to Read</option>
 							<option value="read">Read</option>
-							<option value="none" disabled>
-								None
-							</option>
+							<option value="none">None</option>
 						</select>
 					</div>
 				</div>

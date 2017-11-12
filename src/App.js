@@ -8,13 +8,18 @@ import Search from './Search'
 class BooksApp extends React.Component {
 	state = {
 		books: [],
+		loading: true,
 	}
 
 	updateBookshelf = (bookToUpdate, targetBookshelf) => {
+		this.setState({
+			loading: true,
+		})
 		BooksAPI.update(bookToUpdate, targetBookshelf).then(
 			BooksAPI.getAll().then(books => {
 				this.setState({
 					books,
+					loading: false,
 				})
 			}),
 		)
@@ -22,9 +27,9 @@ class BooksApp extends React.Component {
 
 	componentDidMount() {
 		BooksAPI.getAll().then(books => {
-			console.log(books)
 			this.setState({
 				books,
+				loading: false,
 			})
 		})
 	}
@@ -33,6 +38,7 @@ class BooksApp extends React.Component {
 		const { books } = this.state
 		return (
 			<div className="app">
+				{this.state.loading && <span>Loading...</span>}
 				<Route
 					exact
 					path="/"
@@ -40,7 +46,11 @@ class BooksApp extends React.Component {
 						<Bookshelves books={books} updateBookshelf={this.updateBookshelf} />
 					)}
 				/>
-				<Route exact path="/search" component={Search} />
+				<Route
+					exact
+					path="/search"
+					render={() => <Search updateBookshelf={this.updateBookshelf} />}
+				/>
 			</div>
 		)
 	}
