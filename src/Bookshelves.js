@@ -4,7 +4,7 @@ import Book from './Book'
 
 class Bookshelves extends Component {
 	render() {
-		const { books } = this.props
+		const { books, updateBookshelf } = this.props
 		return (
 			<div className="list-books">
 				<div className="list-books-title">
@@ -21,12 +21,14 @@ class Bookshelves extends Component {
 											return book.shelf === 'currentlyReading'
 										})
 										.map(book => (
-											<li>
+											<li key={book.id}>
 												<Book
+													book={book}
 													title={book.title}
 													authors={book.authors}
 													thumbnail={book.imageLinks.thumbnail}
-													key={book.id}
+													shelf={book.shelf}
+													onUpdate={updateBookshelf}
 												/>
 											</li>
 										))}
@@ -42,12 +44,14 @@ class Bookshelves extends Component {
 											return book.shelf === 'wantToRead'
 										})
 										.map(book => (
-											<li>
+											<li key={book.id}>
 												<Book
+													book={book}
 													title={book.title}
 													authors={book.authors}
 													thumbnail={book.imageLinks.thumbnail}
-													key={book.id}
+													shelf={book.shelf}
+													onUpdate={updateBookshelf}
 												/>
 											</li>
 										))}
@@ -63,12 +67,14 @@ class Bookshelves extends Component {
 											return book.shelf === 'read'
 										})
 										.map(book => (
-											<li>
+											<li key={book.id}>
 												<Book
+													book={book}
 													title={book.title}
 													authors={book.authors}
 													thumbnail={book.imageLinks.thumbnail}
-													key={book.id}
+													shelf={book.shelf}
+													onUpdate={updateBookshelf}
 												/>
 											</li>
 										))}
