@@ -2,15 +2,17 @@ import React, { Component } from 'react'
 
 class Book extends Component {
 	state = {
+		// It’s not generally a good practice to read state from props, but in this case we’re using a controlled component, and we don’t want to bother our parent components with the inner workings of our <select>.
 		selectedShelf: this.props.shelf,
 	}
+
 	handleChange = event => {
 		this.setState({
 			selectedShelf: event.target.value,
 		})
 		this.props.onUpdate(this.props.book, event.target.value)
-		this.forceUpdate()
 	}
+
 	render() {
 		const { title, authors, thumbnail } = this.props
 		return (
@@ -40,7 +42,10 @@ class Book extends Component {
 					</div>
 				</div>
 				<div className="book-title">{title}</div>
-				<div className="book-authors">{authors}</div>
+				<div className="book-authors">
+					{// `authors` are returned from the API as an array, so we want to make sure they’re displayed nicely on our client
+					authors instanceof Array ? authors.join('; ') : ''}
+				</div>
 			</div>
 		)
 	}
