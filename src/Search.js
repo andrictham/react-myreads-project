@@ -8,27 +8,36 @@ class Search extends Component {
 		query: '',
 		results: [],
 	}
+
 	handleChange = event => {
 		this.setState({ query: event.target.value })
-		if (event.target.value.length >= 1) {
-			this.search(event.target.value)
+		if (event.target.value.trim() !== '') {
+			this.search(event.target.value.trim()) // Send our trimmed query to the server, if it’s not an empty string.
+		} else {
+			this.setState({
+				results: [], // However, if our search string is empty on the client, don’t even bother sending it to the server.
+			})
 		}
 	}
 	search = query => {
+		// Fire off a search to our backend server
 		BooksAPI.search(query, 20).then(results => {
 			if (results instanceof Array) {
+				// If valid results are returned, then we want to show it on our client
 				this.setState({
 					results,
 				})
 			} else {
+				// If not, let’s go ahead and show nothing at all
 				this.setState({
 					results: [],
 				})
 			}
 		})
 	}
+
 	render() {
-		const { updateBookshelf } = this.props
+		const { updateBookshelf, whichShelf } = this.props
 		return (
 			<div className="search-books">
 				<div className="search-books-bar">
@@ -61,8 +70,8 @@ class Search extends Component {
 									book={book}
 									title={book.title}
 									authors={book.authors}
-									thumbnail={book.imageLinks.thumbnail}
-									shelf="none"
+									thumbnail={book.imageLinks ? book.imageLinks.thumbnail : ''}
+									shelf={whichShelf(book.id)}
 									onUpdate={updateBookshelf}
 								/>
 							</li>

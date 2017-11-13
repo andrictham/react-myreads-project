@@ -1,10 +1,20 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import includes from 'lodash/includes'
 import Book from './Book'
+
+// TODO: Refactor each bookshelf to a reusable component.
 
 class Bookshelves extends Component {
 	render() {
-		const { books, updateBookshelf } = this.props
+		const {
+			books,
+			updateBookshelf,
+			whichShelf,
+			currentlyReading,
+			wantToRead,
+			read,
+		} = this.props
 		return (
 			<div className="list-books">
 				<div className="list-books-title">
@@ -18,7 +28,7 @@ class Bookshelves extends Component {
 								<ol className="books-grid">
 									{books
 										.filter(book => {
-											return book.shelf === 'currentlyReading'
+											return includes(currentlyReading, book.id)
 										})
 										.map(book => (
 											<li key={book.id}>
@@ -26,8 +36,10 @@ class Bookshelves extends Component {
 													book={book}
 													title={book.title}
 													authors={book.authors}
-													thumbnail={book.imageLinks.thumbnail}
-													shelf={book.shelf}
+													thumbnail={
+														book.imageLinks ? book.imageLinks.thumbnail : ''
+													}
+													shelf={whichShelf(book.id)}
 													onUpdate={updateBookshelf}
 												/>
 											</li>
@@ -41,7 +53,7 @@ class Bookshelves extends Component {
 								<ol className="books-grid">
 									{books
 										.filter(book => {
-											return book.shelf === 'wantToRead'
+											return includes(wantToRead, book.id)
 										})
 										.map(book => (
 											<li key={book.id}>
@@ -49,8 +61,10 @@ class Bookshelves extends Component {
 													book={book}
 													title={book.title}
 													authors={book.authors}
-													thumbnail={book.imageLinks.thumbnail}
-													shelf={book.shelf}
+													thumbnail={
+														book.imageLinks ? book.imageLinks.thumbnail : ''
+													}
+													shelf={whichShelf(book.id)}
 													onUpdate={updateBookshelf}
 												/>
 											</li>
@@ -64,7 +78,7 @@ class Bookshelves extends Component {
 								<ol className="books-grid">
 									{books
 										.filter(book => {
-											return book.shelf === 'read'
+											return includes(read, book.id)
 										})
 										.map(book => (
 											<li key={book.id}>
@@ -72,8 +86,10 @@ class Bookshelves extends Component {
 													book={book}
 													title={book.title}
 													authors={book.authors}
-													thumbnail={book.imageLinks.thumbnail}
-													shelf={book.shelf}
+													thumbnail={
+														book.imageLinks ? book.imageLinks.thumbnail : ''
+													}
+													shelf={whichShelf(book.id)}
 													onUpdate={updateBookshelf}
 												/>
 											</li>
