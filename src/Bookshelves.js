@@ -1,11 +1,32 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import includes from 'lodash/includes'
-import startCase from 'lodash/startCase'
 import Book from './Book'
 
 class Bookshelves extends Component {
+	filterBooksByShelf = (books, shelf) => {
+		return books.filter(book => {
+			// We want to filter our entire books array by whether they belong in the bookshelf array that is passed in.
+			return includes(shelf, book.id)
+		})
+	}
+
 	render() {
+		const {
+			books,
+			updateBookshelf,
+			whichShelf,
+			currentlyReading,
+			wantToRead,
+			read,
+		} = this.props
+
+		let booksInShelves = {
+			currentlyReading: this.filterBooksByShelf(books, currentlyReading),
+			wantToRead: this.filterBooksByShelf(books, wantToRead),
+			read: this.filterBooksByShelf(books, read),
+		}
+
 		return (
 			<div className="list-books">
 				<div className="list-books-title">
@@ -13,9 +34,24 @@ class Bookshelves extends Component {
 				</div>
 				<div className="list-books-content">
 					<div>
-						<Bookshelf name="currentlyReading" {...this.props} />
-						<Bookshelf name="wantToRead" {...this.props} />
-						<Bookshelf name="read" {...this.props} />
+						<Bookshelf
+							name="Currently Reading"
+							books={booksInShelves.currentlyReading}
+							whichShelf={whichShelf}
+							updateBookshelf={updateBookshelf}
+						/>
+						<Bookshelf
+							name="Want to Read"
+							books={booksInShelves.wantToRead}
+							whichShelf={whichShelf}
+							updateBookshelf={updateBookshelf}
+						/>
+						<Bookshelf
+							name="Read"
+							books={booksInShelves.read}
+							whichShelf={whichShelf}
+							updateBookshelf={updateBookshelf}
+						/>
 					</div>
 				</div>
 				<div className="open-search">
@@ -26,40 +62,23 @@ class Bookshelves extends Component {
 	}
 }
 
-const Bookshelf = ({
-	name,
-	books,
-	updateBookshelf,
-	whichShelf,
-	currentlyReading,
-	wantToRead,
-	read,
-}) => (
+const Bookshelf = ({ name, books, updateBookshelf, whichShelf }) => (
 	<div className="bookshelf">
-		<h2 className="bookshelf-title">
-			{// Convert name of bookshelf to Title case (wantToRead -> Want To Read)
-			startCase(name)}
-		</h2>
+		<h2 className="bookshelf-title">{name}</h2>
 		<div className="bookshelf-books">
 			<ol className="books-grid">
-				{books
-					.filter(book => {
-						// We want to filter books by whether they belong in the bookshelf
-						return includes(eval(name), book.id)
-						// `eval()` evaluates the name of bookshelf as an expression, so it gets treated like a reference to a variable. This lets us access the currentlyReading, wantToRead, and read props that are passed in.
-					})
-					.map(book => (
-						<li key={book.id}>
-							<Book
-								book={book}
-								title={book.title}
-								authors={book.authors}
-								thumbnail={book.imageLinks ? book.imageLinks.thumbnail : ''}
-								shelf={whichShelf(book.id)}
-								onUpdate={updateBookshelf}
-							/>
-						</li>
-					))}
+				{books.map(book => (
+					<li key={book.id}>
+						<Book
+							book={book}
+							title={book.title}
+							authors={book.authors}
+							thumbnail={book.imageLinks ? book.imageLinks.thumbnail : ''}
+							shelf={whichShelf(book.id)}
+							onUpdate={updateBookshelf}
+						/>
+					</li>
+				))}
 			</ol>
 		</div>
 	</div>
