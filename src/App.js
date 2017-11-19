@@ -82,13 +82,13 @@ class BooksApp extends React.Component {
 					...response,
 				},
 			}))
+			this.fetchBooks()
 			if (targetBookshelf !== 'none') {
 				toast.info(`Book moved to ${startCase(targetBookshelf)}!`)
 			} else {
 				toast.info(`Book removed! 😞`)
 			}
 		})
-		this.fetchBooks()
 	}
 	render() {
 		const { books, shelves } = this.state
