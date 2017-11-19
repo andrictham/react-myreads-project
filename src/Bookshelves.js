@@ -1,9 +1,19 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import includes from 'lodash/includes'
 import Book from './Book'
 
 class Bookshelves extends Component {
+	static propTypes = {
+		books: PropTypes.array,
+		updateBookshelf: PropTypes.func.isRequired,
+		whichShelf: PropTypes.func.isRequired,
+		currentlyReading: PropTypes.array,
+		wantToRead: PropTypes.array,
+		read: PropTypes.array,
+	}
+
 	filterBooksByShelf = (books, shelf) => {
 		return books.filter(book => {
 			// We want to filter our entire books array by whether they belong in the bookshelf array that is passed in.
@@ -83,5 +93,12 @@ const Bookshelf = ({ name, books, updateBookshelf, whichShelf }) => (
 		</div>
 	</div>
 )
+
+Bookshelf.propTypes = {
+	name: PropTypes.string.isRequired,
+	books: PropTypes.array,
+	updateBookshelf: PropTypes.func.isRequired,
+	whichShelf: PropTypes.func.isRequired,
+}
 
 export default Bookshelves

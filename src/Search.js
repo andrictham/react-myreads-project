@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import Book from './Book'
 
 class Search extends Component {
+	static propTypes = {
+		updateBookshelf: PropTypes.func.isRequired,
+		whichShelf: PropTypes.func.isRequired,
+	}
+
 	state = {
 		query: '',
 		results: [],
@@ -19,6 +25,7 @@ class Search extends Component {
 			})
 		}
 	}
+
 	search = query => {
 		// Fire off a search to our backend server
 		BooksAPI.search(query, 20).then(results => {

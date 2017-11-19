@@ -1,6 +1,16 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 class Book extends Component {
+	static propTypes = {
+		book: PropTypes.object.isRequired,
+		title: PropTypes.string.isRequired,
+		authors: PropTypes.array,
+		thumbnail: PropTypes.string,
+		shelf: PropTypes.string.isRequired,
+		onUpdate: PropTypes.func.isRequired,
+	}
+
 	state = {
 		// It’s not generally a good practice to read state from props, but in this case we’re using a controlled component, and we don’t want to bother our parent components with the inner workings of our <select>.
 		selectedShelf: this.props.shelf,
