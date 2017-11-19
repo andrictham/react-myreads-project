@@ -319,6 +319,12 @@ body,
 .app {
   background: #fdfaf5; }
 
+h1, h2 {
+  font-family: 'Spectral SC', serif; }
+
+p {
+  font-size: 18px; }
+
 /* main page */
 .list-books-title {
   padding: 0.8rem 0;
@@ -327,7 +333,6 @@ body,
   text-align: center; }
 
 .list-books-title h1 {
-  font-family: 'Spectral SC', serif;
   font-weight: 900;
   margin: 0;
   color: #fdfaf5; }
@@ -348,7 +353,6 @@ body,
 
 .bookshelf-title {
   text-align: center;
-  font-family: 'Spectral SC', serif;
   color: #212121;
   display: flex;
   align-items: center;
@@ -384,6 +388,10 @@ body,
   font-size: 0; }
 
 /* search page */
+.search-books {
+  min-height: 100vh;
+  background-color: white; }
+
 .search-books-bar {
   position: fixed;
   width: 100%;
@@ -391,11 +399,10 @@ body,
   left: 0;
   z-index: 5;
   display: flex;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 0 6px rgba(0, 0, 0, 0.23); }
+  box-shadow: 0 10px 20px rgba(33, 33, 33, 0.05), 0 0 6px rgba(33, 33, 33, 0.07); }
 
 .search-books-input-wrapper {
-  flex: 1;
-  background: #e9e; }
+  flex: 1; }
 
 .search-books-bar input {
   width: 100%;
@@ -436,15 +443,17 @@ body,
 .book {
   width: 140px; }
 
-.book-title,
-.book-authors {
-  font-size: 0.8em; }
-
 .book-title {
-  margin-top: 10px; }
+  font-size: 1.1rem;
+  line-height: 1.2;
+  margin: 1rem 0 0.5rem; }
 
 .book-authors {
-  color: #999; }
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(33, 33, 33, 0.8); }
 
 .book-top {
   position: relative;
