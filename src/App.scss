@@ -67,14 +67,14 @@ body,
 }
 
 .bookshelf {
-	padding: 1rem;
+	padding: 1rem 0 3rem;
 	margin: 0.5rem;
 	background-color: white;
 }
 
 @media (min-width: 600px) {
 	.bookshelf {
-		padding: 1rem;
+		padding: 1rem 0.5rem 3rem;
 		margin: 0.5rem;
 	}
 }
