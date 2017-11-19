@@ -8,6 +8,8 @@ class Search extends Component {
 	static propTypes = {
 		updateBookshelf: PropTypes.func.isRequired,
 		whichShelf: PropTypes.func.isRequired,
+		appIsLoading: PropTypes.func.isRequired,
+		appDidLoad: PropTypes.func.isRequired,
 	}
 
 	state = {
@@ -27,6 +29,7 @@ class Search extends Component {
 	}
 
 	search = query => {
+		this.props.appIsLoading()
 		// Fire off a search to our backend server
 		BooksAPI.search(query, 20).then(results => {
 			if (results instanceof Array) {
@@ -40,6 +43,7 @@ class Search extends Component {
 					results: [],
 				})
 			}
+			this.props.appDidLoad()
 		})
 	}
 
