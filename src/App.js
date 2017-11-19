@@ -82,11 +82,14 @@ class BooksApp extends React.Component {
 					...response,
 				},
 			}))
-			toast.info(`Book moved to ${startCase(targetBookshelf)}!`)
+			if (targetBookshelf !== 'none') {
+				toast.info(`Book moved to ${startCase(targetBookshelf)}!`)
+			} else {
+				toast.info(`Book removed! 😞`)
+			}
 		})
 		this.fetchBooks()
 	}
-
 	render() {
 		const { books, shelves } = this.state
 		return (
@@ -132,5 +135,4 @@ class BooksApp extends React.Component {
 		)
 	}
 }
-
 export default BooksApp
