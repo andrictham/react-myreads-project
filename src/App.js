@@ -1,6 +1,11 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import includes from 'lodash/includes'
+import startCase from 'lodash/startCase'
+import ProgressBar from 'react-progress-bar-plus'
+import 'react-progress-bar-plus/lib/progress-bar.css'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import Bookshelves from './Bookshelves'
@@ -77,6 +82,7 @@ class BooksApp extends React.Component {
 					...response,
 				},
 			}))
+			toast.info(`Book moved to ${startCase(targetBookshelf)}!`)
 		})
 		this.fetchBooks()
 	}
@@ -85,7 +91,12 @@ class BooksApp extends React.Component {
 		const { books, shelves } = this.state
 		return (
 			<div className="app">
-				{this.state.loading && <span>Loading...</span>}
+				<ProgressBar
+					autoIncrement
+					percent={this.state.loading ? 33 : 100}
+					intervalTime={326}
+					spinner={false}
+				/>
 				<Route
 					exact
 					path="/"
@@ -107,6 +118,15 @@ class BooksApp extends React.Component {
 							whichShelf={this.whichShelf}
 						/>
 					)}
+				/>
+				<ToastContainer
+					position="bottom-center"
+					type="info"
+					autoClose={3000}
+					hideProgressBar={false}
+					newestOnTop={false}
+					closeOnClick
+					pauseOnHover
 				/>
 			</div>
 		)
