@@ -73,6 +73,7 @@ class BooksApp extends React.Component {
 			this.setState(state => ({
 				loading: false,
 				shelves: {
+					// Since the shape of our state resembles what the API returns, we can simply set our state directly.
 					...response,
 				},
 			}))
