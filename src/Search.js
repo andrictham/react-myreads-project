@@ -15,6 +15,7 @@ class Search extends Component {
 	state = {
 		query: '',
 		results: [],
+		searchWasSuccessful: null,
 	}
 
 	handleChange = event => {
@@ -36,11 +37,13 @@ class Search extends Component {
 				// If valid results are returned, then we want to show it on our client
 				this.setState({
 					results,
+					searchWasSuccessful: true,
 				})
 			} else {
 				// If not, let’s go ahead and show nothing at all
 				this.setState({
 					results: [],
+					searchWasSuccessful: false,
 				})
 			}
 			this.props.appDidLoad()
@@ -75,6 +78,12 @@ class Search extends Component {
 				</div>
 				<div className="search-books-results">
 					<ol className="books-grid">
+						{this.state.searchWasSuccessful === false && (
+							<div>
+								<h1>No books were found!</h1>
+								<p>Search again?</p>
+							</div>
+						)}
 						{this.state.results.map(book => (
 							<li key={book.id}>
 								<Book
