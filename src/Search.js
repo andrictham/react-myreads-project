@@ -22,7 +22,8 @@ class Search extends Component {
 		this.setState({ query: event.target.value })
 		if (event.target.value.trim() !== '') {
 			this.search(event.target.value.trim()) // Send our trimmed query to the server, if it’s not an empty string.
-		} else {
+		}
+		if (event.target.value.trim() === '') {
 			this.setState({
 				results: [], // However, if our search string is empty on the client, don’t even bother sending it to the server.
 			})
@@ -80,7 +81,7 @@ class Search extends Component {
 					<ol className="books-grid">
 						{this.state.searchWasSuccessful === false && (
 							<div>
-								<h1>No books were found!</h1>
+								<h2>No books were found!</h2>
 								<p>Search again?</p>
 							</div>
 						)}
