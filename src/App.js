@@ -22,11 +22,22 @@ class BooksApp extends React.Component {
 		loading: true,
 	}
 
+	appIsLoading = () => {
+		this.setState({
+			loading: true,
+		})
+	}
+
+	appDidLoad = () => {
+		this.setState({
+			loading: false,
+		})
+	}
+
 	fetchBooks = () => {
 		const { assignBooksToShelf } = this
 		BooksAPI.getAll().then(books => {
 			this.setState({
-				loading: false,
 				books,
 				shelves: {
 					currentlyReading: assignBooksToShelf(books, 'currentlyReading'),
@@ -34,6 +45,7 @@ class BooksApp extends React.Component {
 					read: assignBooksToShelf(books, 'read'),
 				},
 			})
+			this.appDidLoad()
 		})
 	}
 
@@ -71,12 +83,9 @@ class BooksApp extends React.Component {
 	}
 
 	updateBookshelf = (bookToUpdate, targetBookshelf) => {
-		this.setState({
-			loading: true,
-		})
+		this.appIsLoading()
 		BooksAPI.update(bookToUpdate, targetBookshelf).then(response => {
 			this.setState(state => ({
-				loading: false,
 				shelves: {
 					// Since the shape of our state resembles what the API returns, we can simply set our state directly.
 					...response,
@@ -96,7 +105,7 @@ class BooksApp extends React.Component {
 			<div className="app">
 				<ProgressBar
 					autoIncrement
-					percent={this.state.loading ? 33 : 100}
+					percent={this.state.loading ? 27 : 100}
 					intervalTime={326}
 					spinner={false}
 				/>
@@ -119,6 +128,8 @@ class BooksApp extends React.Component {
 						<Search
 							updateBookshelf={this.updateBookshelf}
 							whichShelf={this.whichShelf}
+							appIsLoading={this.appIsLoading}
+							appDidLoad={this.appDidLoad}
 						/>
 					)}
 				/>
