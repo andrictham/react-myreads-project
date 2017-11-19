@@ -406,10 +406,11 @@ p {
 
 .search-books-bar input {
   width: 100%;
-  padding: 15px 10px;
-  font-size: 1.25em;
+  padding: 13.5px 10px;
+  font-size: 1.25rem;
   border: none;
-  outline: none; }
+  outline: none;
+  font-family: 'Barlow Semi Condensed', sans-serif; }
 
 .close-search {
   display: block;
